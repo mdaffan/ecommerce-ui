@@ -6,18 +6,26 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import * as React from 'react'
+import { Helmet } from 'react-helmet-async'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { GlobalStyle } from 'styles/global-styles'
 
-import { GlobalStyle } from 'styles/global-styles';
-
-import { HomePage } from './containers/HomePage/Loadable';
-import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { useTranslation } from 'react-i18next';
+import { NotFoundPage } from './components/NotFoundPage/Loadable'
+import { useTranslation } from 'react-i18next'
+import Navbar from './components/NavBar'
+import { Products } from './containers/Products'
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors'
+import { reducer, sliceKey } from 'app/containers/Cart/slice'
+import { cartSaga } from 'app/containers/Cart/saga'
+import { useSelector } from 'react-redux'
+import { selectCart } from './containers/Cart/selectors'
 
 export function App() {
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation()
+  useInjectReducer({ key: sliceKey, reducer: reducer })
+  const { cartItems } = useSelector(selectCart)
   return (
     <BrowserRouter>
       <Helmet
@@ -27,12 +35,14 @@ export function App() {
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
+      <Navbar cartCount={cartItems.length} />
 
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route path="/" component={Products} />
         <Route component={NotFoundPage} />
       </Switch>
+
       <GlobalStyle />
     </BrowserRouter>
-  );
+  )
 }

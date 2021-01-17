@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
+import Navbar from 'app/components/NavBar'
+import * as React from 'react'
+import { Helmet } from 'react-helmet-async'
 
 export function HomePage() {
   return (
@@ -10,5 +11,5 @@ export function HomePage() {
       </Helmet>
       <span>HomePage container</span>
     </>
-  );
+  )
 }
