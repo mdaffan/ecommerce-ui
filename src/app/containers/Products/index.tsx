@@ -63,6 +63,21 @@ export function Products(props: Props) {
                   >
                     {item.name}
                   </p>
+                  <div>
+                    <div className="d-flex">
+                      <h6>{item.price}$</h6>
+                      <h6 className="ml-2">
+                        <s> {item.compare_at_price}$</s>
+                      </h6>
+                      <small className="ml-2 text-success">
+                        {Math.floor(
+                          ((item.compare_at_price - item.price) /
+                            item.compare_at_price) *
+                            100,
+                        ) + '%'}
+                      </small>
+                    </div>
+                  </div>
                   <div
                     css={`
                       opacity: 0;

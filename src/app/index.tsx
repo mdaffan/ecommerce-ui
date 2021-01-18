@@ -21,6 +21,7 @@ import { reducer, sliceKey } from 'app/containers/Cart/slice'
 import { cartSaga } from 'app/containers/Cart/saga'
 import { useSelector } from 'react-redux'
 import { selectCart } from './containers/Cart/selectors'
+import { Cart } from './containers/Cart'
 
 export function App() {
   const { i18n } = useTranslation()
@@ -38,7 +39,8 @@ export function App() {
       <Navbar cartCount={cartItems.length} />
 
       <Switch>
-        <Route path="/" component={Products} />
+        <Route exact path="/" component={Products} />
+        <Route exact path="/cart" component={Cart} />
         <Route component={NotFoundPage} />
       </Switch>
 
