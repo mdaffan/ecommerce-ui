@@ -67,7 +67,7 @@ export function Products(props: Props) {
     dispatch(addItemsToCart({ item, variant: values[index].value }))
   }
   const sortList = (e: any) => {
-    let productsList = [...products]
+    let productsList = [...allProducts]
     if (e.target.value === 'lowToHigh')
       productsList.sort(function (a: any, b: any) {
         return a.price - b.price
