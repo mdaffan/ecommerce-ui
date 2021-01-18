@@ -103,7 +103,15 @@ export function Products(props: Props) {
   ]
   return (
     <>
-      <Breadcrumb className="">
+      <Breadcrumb
+        css={`
+          ol {
+            background-color: white;
+            margin-bottom: 0 !important;
+          }
+        `}
+        className=""
+      >
         <Breadcrumb.Item as="li">Home</Breadcrumb.Item>
         <Breadcrumb.Item as="li">Clothing</Breadcrumb.Item>
         <Breadcrumb.Item as="li">Mens Clothing</Breadcrumb.Item>
@@ -158,7 +166,17 @@ export function Products(props: Props) {
         <Row>
           {allProducts.map((item: any, index: number) => (
             <Col key={item.id} xl={3} lg={3} sm={6} md={6}>
-              <Card className="m-2">
+              <Card
+                css={`
+                  &:hover {
+                    box-shadow: 0 0 5px black;
+                    .badge_${index} {
+                      opacity: 1;
+                    }
+                  }
+                `}
+                className="m-2"
+              >
                 <Card.Img variant="top" src={item.image_src[0]} />
                 <Card.Body css={``}>
                   <b>{item.vendor}</b>
@@ -187,11 +205,9 @@ export function Products(props: Props) {
                     </div>
                   </div>
                   <div
+                    className={`badge_${index}`}
                     css={`
                       opacity: 0;
-                      &:hover {
-                        opacity: 1;
-                      }
                     `}
                   >
                     {(badgeClicked[index]

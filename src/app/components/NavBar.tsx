@@ -9,7 +9,13 @@ interface Props {
 const NavBar: React.FC<Props> = props => {
   const location = useHistory()
   return (
-    <Navbar bg="light" sticky="top" collapseOnSelect expand="lg">
+    <Navbar
+      style={{ boxShadow: '0 0 5px black' }}
+      bg="light"
+      sticky="top"
+      collapseOnSelect
+      expand="lg"
+    >
       <Navbar.Brand href="#home">
         <img src="logo.png" />
       </Navbar.Brand>
