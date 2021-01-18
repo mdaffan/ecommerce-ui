@@ -12,7 +12,16 @@ import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors'
 import { reducer, sliceKey, getProducts } from './slice'
 import { selectProducts } from './selectors'
 import { productsSaga } from './saga'
-import { Card, Col, Row, Container, Badge, Button } from 'react-bootstrap'
+import {
+  Card,
+  Col,
+  Row,
+  Container,
+  Form,
+  Badge,
+  Button,
+  Breadcrumb,
+} from 'react-bootstrap'
 import { cartSaga } from '../Cart/saga'
 import { addItemsToCart, sliceKey as cartSlice } from '../Cart/slice'
 interface Props {}
@@ -28,6 +37,8 @@ export function Products(props: Props) {
   const dispatch = useDispatch()
   const [allProducts, setAllProducts] = React.useState<Array<object>>([])
   const [badgeClicked, setBadgeClick] = React.useState<any>({})
+  const [activeFilter, setActiveFilter] = React.useState<any>({})
+  const [activeSort, setActiveSort] = React.useState<any>('lowToHigh')
   React.useEffect(() => {
     if (!products.length) dispatch(getProducts())
     else setAllProducts(products)
@@ -38,15 +49,112 @@ export function Products(props: Props) {
     values[index] = { clicked: true, value: item }
     setBadgeClick(values)
   }
+  const getFilteredList = (item: any) => {
+    if (item.value === 'allProducts') setAllProducts(products)
+    else {
+      let productsList = [...products]
+      productsList = productsList.filter((data: any) => data.tag === item.value)
+      setAllProducts(productsList)
+    }
+    setActiveFilter({
+      [item.value]: activeFilter[item.value] ? !activeFilter[item.value] : true,
+    })
+  }
   const addToCart = (item: any, index: number) => {
     let values = { ...badgeClicked }
     values[index] = { ...values[index], clicked: false }
     setBadgeClick(values)
     dispatch(addItemsToCart({ item, variant: values[index].value }))
   }
+  const sortList = (e: any) => {
+    let productsList = [...products]
+    if (e.target.value === 'lowToHigh')
+      productsList.sort(function (a: any, b: any) {
+        return a.price - b.price
+      })
+    else if (e.target.value === 'highToLow')
+      productsList.sort(function (a: any, b: any) {
+        return b.price - a.price
+      })
+    setAllProducts(productsList)
+    setActiveSort(e.target.value)
+  }
+  const filters = [
+    {
+      label: 'All Products',
+      value: 'allProducts',
+    },
+    {
+      label: 'Tee Shirt',
+      value: 'T-shirt',
+    },
+    {
+      label: 'Denim',
+      value: 'Denim',
+    },
+    {
+      label: 'Jackets',
+      value: 'jacket',
+    },
+    {
+      label: 'Shirt',
+      value: 'shirt',
+    },
+  ]
   return (
     <>
+      <Breadcrumb className="">
+        <Breadcrumb.Item as="li">Home</Breadcrumb.Item>
+        <Breadcrumb.Item as="li">Clothing</Breadcrumb.Item>
+        <Breadcrumb.Item as="li">Mens Clothing</Breadcrumb.Item>
+        <Breadcrumb.Item as="li" active>
+          All Mens Clothing
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <Container fluid>
+        <h4>
+          {' '}
+          <b>All Products </b>({allProducts.length} Products)
+        </h4>
+        <h5 className="d-flex">
+          {' '}
+          <b className="align-self-center">Filters: </b>
+          <div className="d-flex-inline ml-2 align-self-center">
+            {filters.map((item: any) => (
+              <Button
+                active={activeFilter[item.value]}
+                onClick={e => getFilteredList(item)}
+                css={`
+                  border-radius: 25px;
+                `}
+                variant="outline-secondary mr-1"
+              >
+                {item.label}
+              </Button>
+            ))}
+          </div>
+          <div className="ml-auto">
+            <div
+              css={`
+                white-space: nowrap;
+              `}
+              className="d-flex align-items-center "
+            >
+              <span className="mr-2"> Sort:</span>
+              <Form.Control
+                value={activeSort}
+                onChange={sortList}
+                size="sm"
+                as="select"
+                custom
+              >
+                <option value="lowToHigh">Low to High</option>
+                <option value="highToLow">High to Low</option>
+              </Form.Control>
+            </div>
+          </div>
+        </h5>
+
         <Row>
           {allProducts.map((item: any, index: number) => (
             <Col key={item.id} xl={3} lg={3} sm={6} md={6}>

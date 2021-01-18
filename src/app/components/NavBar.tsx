@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap'
-import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { IoIosCart } from 'react-icons/io'
+import { GoPerson } from 'react-icons/go'
 import { Link, useHistory } from 'react-router-dom'
 interface Props {
   cartCount: number
@@ -24,12 +25,12 @@ const NavBar: React.FC<Props> = props => {
           <Nav.Link href="#pricing">Contact Us</Nav.Link>
         </Nav>
         <Nav>
-          <Nav.Link href="#deets">
-            <AiOutlineShoppingCart />
+          <Nav.Link>
+            <GoPerson />
           </Nav.Link>
           <div>
             <Nav.Link onClick={e => location.push('/cart')} eventKey={2}>
-              <AiOutlineShoppingCart />
+              <IoIosCart />
               <Badge>{props.cartCount}</Badge>
             </Nav.Link>
           </div>
