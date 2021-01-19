@@ -2,9 +2,13 @@
 
 ECOMMERCE
 
+## Tech Stack
+
+TypeScript, React.js, Redux-Saga, Redux Advanced concepts(Selectors, Slices), Styled-Components, React-Bootstrap.
+
 ## Features
 
-Product lisitng, Variant Selection, Pricing, Addition to Cart, Cart Lisiting, Quantity Edits, Cart Items delete, Collated Pricing, Responsiveness, Products filtering, and Sorting.
+Product lisitng, Variant Selection, Pricing, Addition to Cart, Cart Lisiting, Quantity Edits, Cart Items delete, Collated Pricing, Responsiveness, Products filtering, Internationalization ready, Routing, Great Scalable Architecture, SPA and Sorting.
 
 ## Setup
 
