@@ -9,10 +9,20 @@ import { useSelector, useDispatch } from 'react-redux'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styled from 'styled-components/macro'
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors'
-import { reducer, sliceKey } from './slice'
+import {
+  deleteItemsFromCartBucket,
+  modifyItemQuantityInCart,
+  reducer,
+  sliceKey,
+} from './slice'
 import { selectCart } from './selectors'
 import { cartSaga } from './saga'
-import { Card, Col, Row } from 'react-bootstrap'
+import { Button, Card, Col, Row } from 'react-bootstrap'
+import {
+  AiOutlineClose,
+  AiOutlinePlusCircle,
+  AiOutlineMinusCircle,
+} from 'react-icons/ai'
 
 interface Props {}
 
@@ -24,16 +34,34 @@ export function Cart(props: Props) {
   const { cartItems } = useSelector(selectCart)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch()
-  const getPrice = () => {
+  const getPriceOfAnItem = (item: any) => {
+    let price = 0
+    let listingPrice = 0
+    let discount = 0
+    price = item.item.price * item.count
+    listingPrice = item.item.compare_at_price * item.count
+    discount = ((listingPrice - price) / listingPrice) * 100
+    return { price, listingPrice, discount }
+  }
+  const getPriceOfAllItems = () => {
     let price = 0
     let listingPrice = 0
     let discount = 0
     cartItems.map((item: any) => {
-      price += Number(item.item.price)
-      listingPrice += Number(item.item.compare_at_price)
+      price += Number(item.item.price) * item.count
+      listingPrice += Number(item.item.compare_at_price) * item.count
     })
     discount = ((listingPrice - price) / listingPrice) * 100
     return { price, listingPrice, discount }
+  }
+  const deleteCartItems = (item: any) => {
+    dispatch(deleteItemsFromCartBucket({ item }))
+  }
+  const addQuantity = (item: any) => {
+    dispatch(modifyItemQuantityInCart({ item, action: 'add' }))
+  }
+  const subtractQuantity = (item: any) => {
+    dispatch(modifyItemQuantityInCart({ item, action: 'subtract' }))
   }
   return (
     <>
@@ -43,7 +71,7 @@ export function Cart(props: Props) {
             <Card.Header>My Cart</Card.Header>
             <Card.Body>
               {cartItems.map((item: any) => (
-                <div className="p-2 d-flex">
+                <div key={item.item.id} className="p-2 d-flex">
                   <img
                     css={`
                       border-radius: 4px;
@@ -56,19 +84,30 @@ export function Cart(props: Props) {
                     <h5>{item.item.name}</h5>
                     <h5>{item.item.vendor}</h5>
                     <div className="d-flex">
-                      <h6 className="ml-2">{item.item.price}</h6>
+                      <span>
+                        Variant:<small>{item.variant}</small>
+                      </span>
+                      <h6 className="ml-2">{getPriceOfAnItem(item).price}</h6>
                       <h6 className="ml-2">
-                        <s> {item.item.compare_at_price}</s>
+                        <s> {getPriceOfAnItem(item).listingPrice}</s>
                       </h6>
                       <small className="ml-2 text-success">
-                        {Math.floor(
-                          ((item.item.compare_at_price - item.item.price) /
-                            item.item.compare_at_price) *
-                            100,
-                        ) + '%'}
+                        {Math.floor(getPriceOfAnItem(item).discount) + '%'}
                       </small>
+                      <p className="ml-2">Quantity:{item.count}</p>
                     </div>
+                    <AiOutlineMinusCircle
+                      onClick={e => subtractQuantity(item)}
+                    />{' '}
+                    <AiOutlinePlusCircle onClick={e => addQuantity(item)} />
                   </div>
+                  <Button
+                    className="ml-auto align-self-center"
+                    variant="outline-danger"
+                    onClick={e => deleteCartItems(item)}
+                  >
+                    <AiOutlineClose />
+                  </Button>
                 </div>
               ))}
             </Card.Body>
@@ -80,12 +119,15 @@ export function Cart(props: Props) {
             <Card.Body>
               <div className="d-flex">
                 <h5>Price({cartItems.length} Items)</h5>:{' '}
-                <h6>{getPrice().listingPrice}</h6>{' '}
+                <h6>{getPriceOfAllItems().listingPrice}</h6>{' '}
               </div>
-              <p>Discount: {getPrice().listingPrice - getPrice().price}</p>
+              <p>
+                Discount:{' '}
+                {getPriceOfAllItems().listingPrice - getPriceOfAllItems().price}
+              </p>
             </Card.Body>
             <Card.Footer>
-              <p>Total Price: {getPrice().price}</p>
+              <p>Total Price: {getPriceOfAllItems().price}</p>
             </Card.Footer>
           </Card>
         </Col>

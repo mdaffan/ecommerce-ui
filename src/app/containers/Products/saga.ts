@@ -11,9 +11,7 @@ export function* fetchProdcuts() {
     let newResponse =
       response.data.substring(0, fixResponse) +
       response.data.substring(fixResponse + 1, response.data.length)
-    console.log(JSON.parse(newResponse))
 
-    console.log(response.data)
     yield put(productsActions.saveProducts(JSON.parse(newResponse)))
   } catch (err) {
     console.log(err)

@@ -24,15 +24,18 @@ import {
 } from 'react-bootstrap'
 import { cartSaga } from '../Cart/saga'
 import { addItemsToCart, sliceKey as cartSlice } from '../Cart/slice'
+
 interface Props {}
 
 export function Products(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer })
   useInjectSaga({ key: sliceKey, saga: productsSaga })
+
   useInjectSaga({ key: cartSlice, saga: cartSaga })
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { products } = useSelector(selectProducts)
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch()
   const [allProducts, setAllProducts] = React.useState<Array<object>>([])
@@ -62,6 +65,7 @@ export function Products(props: Props) {
   }
   const addToCart = (item: any, index: number) => {
     let values = { ...badgeClicked }
+
     values[index] = { ...values[index], clicked: false }
     setBadgeClick(values)
     dispatch(addItemsToCart({ item, variant: values[index].value }))
@@ -130,6 +134,7 @@ export function Products(props: Props) {
           <div className="d-flex-inline ml-2 align-self-center">
             {filters.map((item: any) => (
               <Button
+                key={item.value}
                 active={activeFilter[item.value]}
                 onClick={e => getFilteredList(item)}
                 css={`
