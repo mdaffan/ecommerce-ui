@@ -23,6 +23,7 @@ import {
   AiOutlinePlusCircle,
   AiOutlineMinusCircle,
 } from 'react-icons/ai'
+import Typography from 'app/components/Typography'
 
 interface Props {}
 
@@ -66,74 +67,105 @@ export function Cart(props: Props) {
   }
   return (
     <>
-      <Row className="m-4">
-        <Col xl={9} lg={8} md={6} sm={12}>
-          <Card>
-            <Card.Header>My Cart</Card.Header>
-            <Card.Body>
-              {cartItems.map((item: any) => (
-                <div key={item.item.id} className="p-2 d-flex">
-                  <img
-                    css={`
-                      border-radius: 4px;
-                    `}
-                    alt="Items"
-                    src={item.item.image_src[0]}
-                    height={100}
-                    width={100}
-                  />
-                  <div className="m-2">
-                    <h5>{item.item.name}</h5>
-                    <h5>{item.item.vendor}</h5>
-                    <div className="d-flex">
-                      <span>
-                        Variant:<small>{item.variant}</small>
-                      </span>
-                      <h6 className="ml-2">{getPriceOfAnItem(item).price}</h6>
-                      <h6 className="ml-2">
-                        <s> {getPriceOfAnItem(item).listingPrice}</s>
-                      </h6>
-                      <small className="ml-2 text-success">
-                        {Math.floor(getPriceOfAnItem(item).discount) + '%'}
-                      </small>
-                      <p className="ml-2">Quantity:{item.count}</p>
+      {cartItems.length ? (
+        <Row className="m-4">
+          <Col xl={9} lg={8} md={8} sm={12}>
+            <Card>
+              <Card.Header>My Cart</Card.Header>
+              <Card.Body>
+                {cartItems.map((item: any) => (
+                  <div key={item.item.id} className="p-2 d-flex">
+                    <img
+                      css={`
+                        border-radius: 4px;
+                      `}
+                      alt="Items"
+                      src={item.item.image_src[0]}
+                      height={100}
+                      width={100}
+                    />
+                    <div className="m-2">
+                      <Typography fontSize={'1rem'}>
+                        {item.item.name}
+                      </Typography>
+                      <Typography fontSize={'1rem'}>
+                        {item.item.vendor}
+                      </Typography>
+                      <div className="d-flex">
+                        <Typography fontSize={'1rem'}>
+                          {item.variant}
+                        </Typography>
+                        <Typography className="ml-2" fontSize={'1rem'}>
+                          {getPriceOfAnItem(item).price}
+                        </Typography>
+                        <Typography className="ml-2" fontSize={'1rem'}>
+                          <s> {getPriceOfAnItem(item).listingPrice}</s>
+                        </Typography>
+                        <Typography fontSize={'1rem'}>
+                          <small className="ml-2 text-success">
+                            {Math.floor(getPriceOfAnItem(item).discount) + '%'}
+                          </small>
+                        </Typography>
+
+                        <p className="ml-2">Quantity: {item.count}</p>
+                      </div>
+                      <AiOutlineMinusCircle
+                        onClick={e => subtractQuantity(item)}
+                      />{' '}
+                      <AiOutlinePlusCircle onClick={e => addQuantity(item)} />
                     </div>
-                    <AiOutlineMinusCircle
-                      onClick={e => subtractQuantity(item)}
-                    />{' '}
-                    <AiOutlinePlusCircle onClick={e => addQuantity(item)} />
+                    <Button
+                      className="ml-auto align-self-center"
+                      variant="outline-danger"
+                      onClick={e => deleteCartItems(item)}
+                    >
+                      <AiOutlineClose />
+                    </Button>
                   </div>
-                  <Button
-                    className="ml-auto align-self-center"
-                    variant="outline-danger"
-                    onClick={e => deleteCartItems(item)}
-                  >
-                    <AiOutlineClose />
-                  </Button>
+                ))}
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="mt-2" xl={3} lg={4} md={4} sm={12}>
+            <Card>
+              <Card.Header>Price Details</Card.Header>
+              <Card.Body>
+                <div className="d-flex">
+                  <Typography fontSize={'1rem'}>
+                    Price({cartItems.length} Items):{'  '}
+                  </Typography>
+                  <Typography fontSize={'1rem'}>
+                    {getPriceOfAllItems().listingPrice}{' '}
+                  </Typography>
                 </div>
-              ))}
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xl={3} lg={4} md={6} sm={12}>
-          <Card>
-            <Card.Header>Price Details</Card.Header>
-            <Card.Body>
-              <div className="d-flex">
-                <h5>Price({cartItems.length} Items)</h5>:{' '}
-                <h6>{getPriceOfAllItems().listingPrice}</h6>{' '}
-              </div>
-              <p>
-                Discount:{' '}
-                {getPriceOfAllItems().listingPrice - getPriceOfAllItems().price}
-              </p>
-            </Card.Body>
-            <Card.Footer>
-              <p>Total Price: {getPriceOfAllItems().price}</p>
-            </Card.Footer>
-          </Card>
-        </Col>
-      </Row>
+                <Typography fontSize={'1rem'}>
+                  Discount:{' '}
+                  {getPriceOfAllItems().listingPrice -
+                    getPriceOfAllItems().price}
+                </Typography>
+              </Card.Body>
+              <Card.Footer>
+                <p>Total Price: {getPriceOfAllItems().price}</p>
+              </Card.Footer>
+            </Card>
+          </Col>
+        </Row>
+      ) : (
+        <Row className="m-0">
+          <div
+            css={`
+              display: flex;
+              align-items: center;
+              margin: auto;
+              height: calc(100vh - 225px);
+            `}
+          >
+            <Typography fontSize={22} fontWeight={500}>
+              Cart is Empty
+            </Typography>
+          </div>
+        </Row>
+      )}
     </>
   )
 }

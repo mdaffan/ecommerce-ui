@@ -22,6 +22,7 @@ import { reducer, sliceKey } from 'app/containers/Cart/slice'
 import { useSelector } from 'react-redux'
 import { selectCart } from './containers/Cart/selectors'
 import { Cart } from './containers/Cart'
+import Offers from './components/Offers'
 
 export function App() {
   const { i18n } = useTranslation()
@@ -30,14 +31,14 @@ export function App() {
   return (
     <BrowserRouter>
       <Helmet
-        titleTemplate="%s - React Boilerplate"
-        defaultTitle="React Boilerplate"
+        titleTemplate="E-Commerce"
+        defaultTitle="E-Commerce"
         htmlAttributes={{ lang: i18n.language }}
       >
-        <meta name="description" content="A React Boilerplate application" />
+        <meta name="description" content="Great place to shop" />
       </Helmet>
       <Navbar cartCount={cartItems.length} />
-
+      <Offers />
       <Switch>
         <Route exact path="/" component={Products} />
         <Route exact path="/cart" component={Cart} />

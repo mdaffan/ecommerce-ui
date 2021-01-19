@@ -19,9 +19,11 @@ const NavBar: React.FC<Props> = props => {
         collapseOnSelect
         expand="lg"
       >
-        <Navbar.Brand href="#home">
-          <img src="logo.png" alt="logo" />
-        </Navbar.Brand>
+        <Link to="/">
+          <Navbar.Brand href="/">
+            <img src="logo.png" alt="logo" />
+          </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse
           id="responsive-navbar-nav "
@@ -35,9 +37,9 @@ const NavBar: React.FC<Props> = props => {
                 <NavDropdown.Item href="/">All Products</NavDropdown.Item>
               </Link>
             </NavDropdown>
-            <Nav.Link href="#features">About Us</Nav.Link>
-            <Nav.Link href="#features">Our Stores</Nav.Link>
-            <Nav.Link href="#pricing">Contact Us</Nav.Link>
+            <Nav.Link href="#aboutus">About Us</Nav.Link>
+            <Nav.Link href="#stores">Our Stores</Nav.Link>
+            <Nav.Link href="#contactus">Contact Us</Nav.Link>
           </Nav>
           <Nav
             css={`

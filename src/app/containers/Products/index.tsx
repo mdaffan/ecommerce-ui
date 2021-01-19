@@ -25,6 +25,7 @@ import {
 } from 'react-bootstrap'
 import { cartSaga } from '../Cart/saga'
 import { addItemsToCart, sliceKey as cartSlice } from '../Cart/slice'
+import Typography from 'app/components/Typography'
 
 interface Props {}
 
@@ -129,47 +130,60 @@ export function Products(props: Props) {
           {' '}
           <b>All Products </b>({allProducts.length} Products)
         </h4>
-        <h5 className="d-flex">
+        <h5>
           {' '}
-          <b className="align-self-center">Filters: </b>
-          <div className="d-flex-inline ml-2 align-self-center">
-            {filters.map((item: any) => (
-              <Button
-                key={item.value}
-                active={activeFilter[item.value]}
-                onClick={e => getFilteredList(item)}
-                css={`
-                  border-radius: 25px;
-                `}
-                variant="outline-secondary mr-1"
-              >
-                {item.label}
-              </Button>
-            ))}
-          </div>
-          <div className="ml-auto">
-            <div
-              css={`
-                white-space: nowrap;
-              `}
-              className="d-flex align-items-center "
-            >
-              <span className="mr-2"> Sort:</span>
-              <Form.Control
-                value={activeSort}
-                onChange={sortList}
-                size="sm"
-                as="select"
-                custom
-              >
-                <option value="lowToHigh">Low to High</option>
-                <option value="highToLow">High to Low</option>
-              </Form.Control>
-            </div>
-          </div>
+          <Row>
+            <Col className="d-flex" sm={12} md={8} lg={9} xl={9}>
+              <b className="align-self-center">Filters: </b>
+              <div className="d-flex ml-2 align-self-center">
+                {filters.map((item: any) => (
+                  <Button
+                    key={item.value}
+                    active={activeFilter[item.value]}
+                    onClick={e => getFilteredList(item)}
+                    css={`
+                      border-radius: 25px;
+                    `}
+                    variant="outline-secondary mr-1"
+                  >
+                    {item.label}
+                  </Button>
+                ))}
+              </div>
+            </Col>
+            <Col className="ml-auto mt-2" sm={12} md={4} lg={3} xl={3}>
+              <div>
+                <div
+                  css={`
+                    white-space: nowrap;
+                  `}
+                  className="d-flex align-items-center "
+                >
+                  <span className="mr-2"> Sort:</span>
+                  <Form.Control
+                    value={activeSort}
+                    onChange={sortList}
+                    size="sm"
+                    as="select"
+                    custom
+                  >
+                    <option value="lowToHigh">Low to High</option>
+                    <option value="highToLow">High to Low</option>
+                  </Form.Control>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </h5>
 
-        <Row>
+        <Row
+          css={`
+            img {
+              background: transparent url('logo.png') center no-repeat;
+              min-height: 30%;
+            }
+          `}
+        >
           {allProducts.map((item: any, index: number) => (
             <Col key={item.id} xl={3} lg={3} sm={6} md={6}>
               <Card
@@ -183,7 +197,12 @@ export function Products(props: Props) {
                 `}
                 className="m-2"
               >
-                <Card.Img variant="top" src={item.image_src[0]} />
+                <Card.Img
+                  variant="top"
+                  loading="lazy"
+                  className="loading"
+                  src={item.image_src[0]}
+                />
                 <Card.Body css={``}>
                   <b>{item.vendor}</b>
                   <p
@@ -197,10 +216,11 @@ export function Products(props: Props) {
                   </p>
                   <div>
                     <div className="d-flex">
-                      <h6>{item.price}$</h6>
-                      <h6 className="ml-2">
+                      {' '}
+                      <Typography fontSize={'1rem'}>{item.price}$</Typography>
+                      <Typography className="ml-2" fontSize={'1rem'}>
                         <s> {item.compare_at_price}$</s>
-                      </h6>
+                      </Typography>
                       <small className="ml-2 text-success">
                         {Math.floor(
                           ((item.compare_at_price - item.price) /
