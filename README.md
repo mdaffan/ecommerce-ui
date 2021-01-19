@@ -2,6 +2,10 @@
 
 ECOMMERCE
 
+## Features
+
+Product lisitng, Variant Selection, Pricing, Addition to Cart, Cart Lisiting, Quantity Edits, Cart Items delete, Collated Pricing, Responsiveness, Products filtering, and Sorting.
+
 ## Setup
 
     git clone https://github.com/mdaffan/ecommerce-ui.git
