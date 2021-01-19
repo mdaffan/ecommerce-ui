@@ -1,4 +1,4 @@
-import { take, call, put, select, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import { productsActions, getProducts } from './slice'
 import axios from 'axios'
 export function* fetchProdcuts() {

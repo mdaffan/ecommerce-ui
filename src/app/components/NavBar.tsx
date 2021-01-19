@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap'
 import { IoIosCart } from 'react-icons/io'
 import { GoPerson } from 'react-icons/go'
@@ -20,7 +20,7 @@ const NavBar: React.FC<Props> = props => {
         expand="lg"
       >
         <Navbar.Brand href="#home">
-          <img src="logo.png" />
+          <img src="logo.png" alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse

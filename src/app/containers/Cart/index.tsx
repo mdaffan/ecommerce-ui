@@ -47,6 +47,7 @@ export function Cart(props: Props) {
     let price = 0
     let listingPrice = 0
     let discount = 0
+    // eslint-disable-next-line array-callback-return
     cartItems.map((item: any) => {
       price += Number(item.item.price) * item.count
       listingPrice += Number(item.item.compare_at_price) * item.count
@@ -76,6 +77,7 @@ export function Cart(props: Props) {
                     css={`
                       border-radius: 4px;
                     `}
+                    alt="Items"
                     src={item.item.image_src[0]}
                     height={100}
                     width={100}

@@ -6,6 +6,7 @@
 
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styled from 'styled-components/macro'
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors'
@@ -46,7 +47,7 @@ export function Products(props: Props) {
     if (!products.length) dispatch(getProducts())
     else setAllProducts(products)
     return () => {}
-  }, [products])
+  }, [products, dispatch])
   const badgeClick = (item: any, index: number) => {
     let values = { ...badgeClicked }
     values[index] = { clicked: true, value: item }
@@ -253,5 +254,3 @@ export function Products(props: Props) {
     </>
   )
 }
-
-const Div = styled.div``
