@@ -148,8 +148,8 @@ export function Cart(props: Props) {
                 </div>
                 <Typography fontSize={'1rem'}>
                   Discount:{' '}
-                  {getPriceOfAllItems().listingPrice -
-                    getPriceOfAllItems().price}
+                  {getPriceOfAllItems().discount
+                    }
                   %
                 </Typography>
               </Card.Body>
