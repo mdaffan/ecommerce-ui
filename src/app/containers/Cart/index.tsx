@@ -110,9 +110,17 @@ export function Cart(props: Props) {
                         <p className="ml-2">Quantity: {item.count}</p>
                       </div>
                       <AiOutlineMinusCircle
+                        css={`
+                          cursor: pointer;
+                        `}
                         onClick={e => subtractQuantity(item)}
                       />{' '}
-                      <AiOutlinePlusCircle onClick={e => addQuantity(item)} />
+                      <AiOutlinePlusCircle
+                        css={`
+                          cursor: pointer;
+                        `}
+                        onClick={e => addQuantity(item)}
+                      />
                     </div>
                     <Button
                       className="ml-auto align-self-center"
@@ -135,17 +143,18 @@ export function Cart(props: Props) {
                     Price({cartItems.length} Items):{'  '}
                   </Typography>
                   <Typography fontSize={'1rem'}>
-                    {getPriceOfAllItems().listingPrice}{' '}
+                    {getPriceOfAllItems().listingPrice}${' '}
                   </Typography>
                 </div>
                 <Typography fontSize={'1rem'}>
                   Discount:{' '}
                   {getPriceOfAllItems().listingPrice -
                     getPriceOfAllItems().price}
+                  %
                 </Typography>
               </Card.Body>
               <Card.Footer>
-                <p>Total Price: {getPriceOfAllItems().price}</p>
+                <p>Total Price: {getPriceOfAllItems().price}$</p>
               </Card.Footer>
             </Card>
           </Col>
